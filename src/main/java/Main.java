@@ -7,11 +7,15 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String folderPath = "D:\\Downloads";
+        ParameterBag bag = new ParameterBag(args);
+
+        String folderPath = bag.getPath();
+        long sizeLimit = bag.getLimit();
         File file = new File(folderPath);
-        Node root = new Node(file);
+        Node root = new Node(file, sizeLimit);
 
         long start = System.currentTimeMillis();
+
         FolderSizeCalculator calculator = new FolderSizeCalculator(root);
         ForkJoinPool pool = new ForkJoinPool();
         pool.invoke(calculator);
